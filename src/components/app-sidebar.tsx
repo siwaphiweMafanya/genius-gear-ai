@@ -1,0 +1,95 @@
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import {
+  LayoutDashboard,
+  Mail,
+  FileText,
+  ListChecks,
+  Search,
+  MessagesSquare,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+
+const navItems = [
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/email", label: "Email Generator", icon: Mail },
+  { to: "/notes", label: "Notes Summarizer", icon: FileText },
+  { to: "/tasks", label: "Task Planner", icon: ListChecks },
+  { to: "/research", label: "Research Assistant", icon: Search },
+  { to: "/chat", label: "AI Chatbot", icon: MessagesSquare },
+];
+
+export function AppSidebar() {
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    navigate({ to: "/auth" });
+  };
+
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <div className="flex items-center gap-2 px-2 py-3">
+          <div className="size-8 rounded-md bg-primary text-primary-foreground grid place-items-center">
+            <Sparkles className="size-4" />
+          </div>
+          <div className="leading-tight">
+            <div className="text-sm font-semibold">AI Workplace</div>
+            <div className="text-xs text-muted-foreground">Productivity Assistant</div>
+          </div>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => {
+                const active =
+                  path === item.to || (item.to !== "/dashboard" && path.startsWith(item.to));
+                return (
+                  <SidebarMenuItem key={item.to}>
+                    <SidebarMenuButton asChild isActive={active}>
+                      <Link to={item.to}>
+                        <item.icon className="size-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <div className="px-2 pb-2 space-y-2">
+          <div className="text-xs text-muted-foreground truncate" title={user?.email ?? ""}>
+            {user?.email ?? "Not signed in"}
+          </div>
+          <Button variant="outline" size="sm" className="w-full justify-start" onClick={signOut}>
+            <LogOut className="size-4 mr-2" /> Sign out
+          </Button>
+        </div>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
