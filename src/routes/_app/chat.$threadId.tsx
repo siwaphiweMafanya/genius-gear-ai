@@ -176,8 +176,8 @@ function ChatPanel({
   initialMessages: UIMessage[];
   input: string;
   setInput: (v: string) => void;
-  scrollRef: React.RefObject<HTMLDivElement>;
-  textareaRef: React.RefObject<HTMLTextAreaElement>;
+  scrollRef: React.RefObject<HTMLDivElement | null>;
+  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   onTitled: () => void;
 }) {
   const transport = useRef(new DefaultChatTransport({ api: "/api/chat" })).current;
