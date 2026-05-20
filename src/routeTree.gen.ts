@@ -9,10 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiGenerateRouteImport } from './routes/api/generate'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AppTasksRouteImport } from './routes/_app/tasks'
+import { Route as AppResearchRouteImport } from './routes/_app/research'
+import { Route as AppNotesRouteImport } from './routes/_app/notes'
+import { Route as AppEmailRouteImport } from './routes/_app/email'
+import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -28,39 +38,114 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTasksRoute = AppTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResearchRoute = AppResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotesRoute = AppNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEmailRoute = AppEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/email': typeof AppEmailRoute
+  '/notes': typeof AppNotesRoute
+  '/research': typeof AppResearchRoute
+  '/tasks': typeof AppTasksRoute
   '/api/chat': typeof ApiChatRoute
   '/api/generate': typeof ApiGenerateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/email': typeof AppEmailRoute
+  '/notes': typeof AppNotesRoute
+  '/research': typeof AppResearchRoute
+  '/tasks': typeof AppTasksRoute
   '/api/chat': typeof ApiChatRoute
   '/api/generate': typeof ApiGenerateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/email': typeof AppEmailRoute
+  '/_app/notes': typeof AppNotesRoute
+  '/_app/research': typeof AppResearchRoute
+  '/_app/tasks': typeof AppTasksRoute
   '/api/chat': typeof ApiChatRoute
   '/api/generate': typeof ApiGenerateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/chat' | '/api/generate'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/email'
+    | '/notes'
+    | '/research'
+    | '/tasks'
+    | '/api/chat'
+    | '/api/generate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat' | '/api/generate'
-  id: '__root__' | '/' | '/api/chat' | '/api/generate'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/email'
+    | '/notes'
+    | '/research'
+    | '/tasks'
+    | '/api/chat'
+    | '/api/generate'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/dashboard'
+    | '/_app/email'
+    | '/_app/notes'
+    | '/_app/research'
+    | '/_app/tasks'
+    | '/api/chat'
+    | '/api/generate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
   ApiGenerateRoute: typeof ApiGenerateRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -82,11 +167,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/tasks': {
+      id: '/_app/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AppTasksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/research': {
+      id: '/_app/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof AppResearchRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/notes': {
+      id: '/_app/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof AppNotesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/email': {
+      id: '/_app/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof AppEmailRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppEmailRoute: typeof AppEmailRoute
+  AppNotesRoute: typeof AppNotesRoute
+  AppResearchRoute: typeof AppResearchRoute
+  AppTasksRoute: typeof AppTasksRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppEmailRoute: AppEmailRoute,
+  AppNotesRoute: AppNotesRoute,
+  AppResearchRoute: AppResearchRoute,
+  AppTasksRoute: AppTasksRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
   ApiGenerateRoute: ApiGenerateRoute,
 }
