@@ -81,13 +81,18 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="px-2 pb-2 space-y-2">
+        <div className="px-2 pb-2 space-y-3">
           <div className="text-xs text-muted-foreground truncate" title={user?.email ?? ""}>
             {user?.email ?? "Not signed in"}
           </div>
           <Button variant="outline" size="sm" className="w-full justify-start" onClick={signOut}>
             <LogOut className="size-4 mr-2" /> Sign out
           </Button>
+          <div className="pt-2 border-t border-sidebar-border">
+            <div className="text-[10px] tracking-[0.15em] text-muted-foreground/70 font-medium">
+              POWERED BY CAPACITI
+            </div>
+          </div>
         </div>
       </SidebarFooter>
     </Sidebar>
