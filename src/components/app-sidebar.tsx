@@ -47,13 +47,13 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-3">
-          <div className="size-8 rounded-md bg-primary text-primary-foreground grid place-items-center">
-            <Sparkles className="size-4" />
+        <div className="flex items-center gap-2.5 px-2 py-3">
+          <div className="size-9 rounded-lg bg-gradient-coral grid place-items-center shadow-md">
+            <Sparkles className="size-4 text-white" />
           </div>
           <div className="leading-tight">
-            <div className="text-sm font-semibold">AI Workplace</div>
-            <div className="text-xs text-muted-foreground">Productivity Assistant</div>
+            <div className="text-sm font-semibold tracking-tight">Workly AI</div>
+            <div className="text-[11px] text-muted-foreground">by CAPACITI</div>
           </div>
         </div>
       </SidebarHeader>
