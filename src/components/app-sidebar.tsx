@@ -30,8 +30,8 @@ const navItems = [
   { to: "/email", label: "Email Generator", icon: Mail },
   { to: "/notes", label: "Notes Summarizer", icon: FileText },
   { to: "/tasks", label: "Task Planner", icon: ListChecks },
-  { to: "/research", label: "Research Assistant", icon: Search },
-  { to: "/chat", label: "AI Chatbot", icon: MessagesSquare },
+  { to: "/research", label: "Research", icon: Search },
+  { to: "/chat", label: "AI Chat", icon: MessagesSquare },
 ];
 
 export function AppSidebar() {
